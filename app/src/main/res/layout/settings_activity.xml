@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
->
-<android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
-    android:minHeight="?attr/actionBarSize"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark" />
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <TextView
+        android:id="@+id/tvEditUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Username"/>
+    <EditText
+        android:id="@+id/lblEditUsername"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="none"
+        android:background="@color/textfield"
+        />
+
+    <TextView
+        android:id="@+id/tvEditXP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit XP"/>
+    <EditText
+        android:id="@+id/lblEditXP"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="none"
+        android:background="@color/textfield"
+        />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"/>
 </LinearLayout>

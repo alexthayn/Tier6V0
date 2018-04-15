@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="GreenText"> #68CB18</color>
     <color name="Yellow">#E6FA3D</color>
+    <color name="textfield">#efeba0</color>
 </resources>

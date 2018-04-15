@@ -5,13 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-
 /**
  * Created by Alex on 3/25/2018.
  */
 
 public class DatabaseManager extends SQLiteOpenHelper {
+    boolean isCreating = false;
+    SQLiteDatabase currentDB = null;
+
     private static final String DATABASE_NAME = "pokemonDB";
     private static final int DATABASE_VERSION = 1;
 
@@ -59,17 +60,20 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db){
+        isCreating = true;
+        currentDB = db;
         //build sql statement for pokemon table
         String sqlCreatePokemon = "create table " + TABLE_POKEMON + "( " + ID;
         sqlCreatePokemon += " integer primary key, " + LOCKED + " VARCHAR, "
                 + POKEMON + " VARCHAR, " + TYPE1 + " INTEGER, " + TYPE2 + " INTEGER );";
 
         db.execSQL(sqlCreatePokemon);
+
         /*************************************/
         /********Add pokemon to table*********/
         /*************************************/
         Pokemon pokemon = new Pokemon(1,"FALSE","Bulbasaur",12,4);
-        insertPokemon(pokemon);
+        insertPokemonTable(pokemon);
 
 
         String sqlCreateRaidBosses = "create table " +  TABLE_RAIDBOSSES + "( " + ID
@@ -103,6 +107,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 + "( " + ID + " INTEGER, " + POKEMON_ID + " INTEGER);";
 
         db.execSQL(sqlCreateUserPokemon);
+        isCreating = false;
+        currentDB = null;
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
@@ -114,51 +120,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-   /* public void insert( candy)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sqlInsert = "insert into " + TABLE_CANDY
-                + " values( null, '" + candy.getName()
-                + "', '" + candy.getPrice() + "' )";
-        db.execSQL(sqlInsert);
-        db.close();
-    }
-
-    public void deleteById(int id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sqlDelete = "delete from " + TABLE_CANDY
-                + " where " + ID + " = " + id;
-
-        db.execSQL(sqlDelete);
-        db.close();
-    }
-
-    public void updateById(int id, String name, double price){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        String sqlUpdate = "update " + TABLE_CANDY
-                + " set " + NAME + " = '" + name + "', "
-                + PRICE + " = '" + price + "'"
-                + " where " + ID + " = " + id;
-
-        db.execSQL(sqlUpdate);
-        db.close();
-    }
-
-    public ArrayList<Pokemon> selectAllPokemon(){
-        String sqlQuesry = "select * from " + TABLE_POKEMON;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(sqlQuesry, null);
-
-        ArrayList<Candy> candies = new ArrayList<Candy>();
-        while(cursor.moveToNext()){
-            Candy currentCandy = new Candy(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getDouble(2));
-            candies.add(currentCandy);
+    @Override
+    public SQLiteDatabase getWritableDatabase() {
+        // TODO Auto-generated method stub
+        if(isCreating && currentDB != null){
+            return currentDB;
         }
-        db.close();
-        return  candies;
-    }*/
+        return super.getWritableDatabase();
+    }
+
 
     public Pokemon selectPokemonById(int id){
         String sqlQuery = "select * from " + TABLE_POKEMON
@@ -174,13 +144,59 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return pokemon;
     }
 
-    public void insertPokemon(Pokemon p){
+    //get username
+    public String getUsername(){
+        String sqlQuery = "select " +USERNAME + " from " + TABLE_USER_DATA;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sqlQuery, null);
+
+        String username = "";
+        if( cursor != null && cursor.moveToFirst() ) {
+            username = cursor.getString(0);
+        }
+        return username;
+    }
+
+    //get user XP
+    public String getUserXP(){
+        String sqlQuery = "select " +USER_XP + " from " + TABLE_USER_DATA;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sqlQuery, null);
+
+        String userXP = "";
+        if(cursor != null && cursor.moveToFirst())
+            userXP = cursor.getString(0);
+        return userXP;
+    }
+
+    //get user pokemon count
+    public String getUserPokemonCount(){
+        String sqlQuery = "select COUNT(*)from " + TABLE_USER_POKEMON;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sqlQuery, null);
+
+        String pokemonCount = "";
+        if( cursor != null && cursor.moveToFirst() ) {
+            pokemonCount = cursor.getString(0);
+        }
+        return pokemonCount;
+    }
+
+    //allows us to insert a pokemon into the pokemon table
+    public void insertPokemonTable(Pokemon p){
         String insertPokemon = "INSERT INTO " + TABLE_POKEMON + " VALUES (" +
                 + p.getId() + ", '" + p.getLocked() + "','" + p.getPokemon() + "',"
                 + p.getType_I() + ", " + p.getType_II() + ")";
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(insertPokemon);
-        db.close();
+    }
+
+    public void setNewUserData(String username, String xp){
+        String updateData = "Delete from " + TABLE_USER_DATA + "; Insert into "
+                + TABLE_USER_DATA + "( " + username + " ," + xp + ")";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(updateData);
     }
 }

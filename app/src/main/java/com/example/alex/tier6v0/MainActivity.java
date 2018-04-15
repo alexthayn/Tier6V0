@@ -2,6 +2,7 @@ package com.example.alex.tier6v0;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenu;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private DatabaseManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        //dbManager = new DatabaseManager(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        updateUserInfo();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -61,28 +66,43 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_faq) {
+            Intent faqIntent = new Intent(this, FAQActivity.class);
+            this.startActivity(faqIntent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
-            setContentView(R.layout.settings_activity);
+
         if (id == R.id.nav_pokemon) {
+
+        } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent( this , SettingsActivity.class );
             this.startActivity( settingsIntent );
-        } else if (id == R.id.nav_settings) {
-
+            return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void updateUserInfo(){
+        TextView tvUsername = findViewById(R.id.username);
+        TextView tvUserXP = findViewById(R.id.userXP);
+        TextView tvUserPokemonCount = findViewById(R.id.userPokemonCount);
+        String username = "Username: " + dbManager.getUsername();
+        String xp = "XP: " + dbManager.getUserXP();
+        String pokemoncount = "Pokemon Count: " + dbManager.getUserPokemonCount();
+        tvUsername.setText(username);
+        tvUserXP.setText(xp);
+        tvUserPokemonCount.setText(pokemoncount);
     }
 }

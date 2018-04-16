@@ -6,34 +6,22 @@
     android:paddingRight="16dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/side_nav_bar">
-
-    <Button
-        android:id="@+id/btnPokemonTypes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Browse Pokemon Types"
-        android:textSize="30dp"
-        android:background="@color/Yellow"
-        android:layout_marginBottom="50dp"/>
+    android:background="@color/background">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OR"
-        android:textSize="30dp"/>
-
-    <View style="@style/Divider"
-        android:layout_marginBottom="50dp"/>
-
+        android:text="PREPARE"
+        android:textSize="50dp"
+        android:textColor="@color/textfield"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Raid Boss"
-        android:textSize="30dp"
-        android:layout_marginTop="50dp"/>
+        android:textSize="24dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/textfield"/>
 
     <Spinner
         android:id="@+id/raidbossSpinner"
@@ -45,8 +33,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:background="@color/GreenText"
+        android:background="@drawable/side_nav_bar"
         android:text="GO"
-        android:textSize="30dp"/>
+        android:textSize="30dp" />
 
+
+    <View style="@style/Divider"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RESEARCH"
+        android:textSize="50dp"
+        android:textColor="@color/textfield" />
+
+    <Button
+        android:id="@+id/btnPokemonTypes"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Effective Types"
+        android:textSize="30dp"
+        android:background="@drawable/side_nav_bar"
+        android:layout_marginTop="25dp"/>
 </LinearLayout>

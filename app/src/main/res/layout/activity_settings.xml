@@ -4,18 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/background">
 
 
     <TextView
         android:id="@+id/tvEditUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Username"/>
+        android:textSize="30dp"
+        android:text="Edit Username"
+        android:textColor="@color/textfield"
+        android:layout_marginTop="@dimen/margin"/>
     <EditText
         android:id="@+id/lblEditUsername"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:inputType="none"
         android:background="@color/textfield"
         />
@@ -24,11 +28,14 @@
         android:id="@+id/tvEditXP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit XP"/>
+        android:text="Edit XP"
+        android:textSize="30dp"
+        android:textColor="@color/textfield"
+        android:layout_marginTop="@dimen/margin"/>
     <EditText
         android:id="@+id/lblEditXP"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:inputType="none"
         android:background="@color/textfield"
         />
@@ -37,5 +44,8 @@
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="Save"
+        android:background="@drawable/side_nav_bar"
+        android:layout_marginTop="@dimen/margin"/>
+
 </LinearLayout>

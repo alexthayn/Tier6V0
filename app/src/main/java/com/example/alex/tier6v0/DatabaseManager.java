@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alex on 3/25/2018.
@@ -81,6 +85,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 + POKEMON_ID + " INTEGER, " + MAX_CP + " INTEGER, " + MAX_CP_BOOSTED
                 + " INTEGER );";
 
+        String raidBosses = "Insert into " + TABLE_RAIDBOSSES + "(null, 1,1, 100, 100)";
+
         db.execSQL(sqlCreateRaidBosses);
 
         String sqlCreateTypes = "create table " + TABLE_TYPES + "( " + ID
@@ -141,6 +147,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         if(cursor.moveToFirst())
             pokemon = new Pokemon(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
                     Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)));
+        cursor.close();
         return pokemon;
     }
 
@@ -153,6 +160,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String username = "";
         if( cursor != null && cursor.moveToFirst() ) {
             username = cursor.getString(0);
+            cursor.close();
         }
         return username;
     }
@@ -164,8 +172,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sqlQuery, null);
 
         String userXP = "";
-        if(cursor != null && cursor.moveToFirst())
+        if(cursor != null && cursor.moveToFirst()){
             userXP = cursor.getString(0);
+            cursor.close();
+        }
+
         return userXP;
     }
 
@@ -178,6 +189,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String pokemonCount = "";
         if( cursor != null && cursor.moveToFirst() ) {
             pokemonCount = cursor.getString(0);
+            cursor.close();
         }
         return pokemonCount;
     }
@@ -192,11 +204,52 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(insertPokemon);
     }
 
+    public ArrayList<Pokemon> selectAllPokemon(){
+        String selectAll = "SELECT * FROM " + TABLE_POKEMON;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectAll, null);
+
+        ArrayList<Pokemon> pokemon = new ArrayList<>();
+        Pokemon temp;
+        if(cursor.moveToFirst() && cursor!=null) {
+            for (int i = 0; i < cursor.getCount(); i++) {
+                temp = new Pokemon(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),
+                        Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)));
+                pokemon.add(temp);
+                cursor.moveToNext();
+            }
+        }
+        return pokemon;
+    }
+
     public void setNewUserData(String username, String xp){
-        String updateData = "Delete from " + TABLE_USER_DATA + "; Insert into "
-                + TABLE_USER_DATA + "( " + username + " ," + xp + ")";
+        String updateData = "Delete from " + TABLE_USER_DATA;
+        String insert = " Insert into " + TABLE_USER_DATA + " VALUES ( " + Integer.parseInt(xp) + " , '" + username + "')";
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(updateData);
+        db.execSQL(insert);
+        Log.w("Username update in db","My username is set to : " + getUsername());
+
+    }
+
+    public ArrayList<String> getAllRaidBosses(){
+        String getRaidBosses = "Select "+ POKEMON + " from " + TABLE_RAIDBOSSES + " inner join "
+                + TABLE_POKEMON + " On " + TABLE_RAIDBOSSES + "." + POKEMON_ID + " = "
+                + TABLE_POKEMON + "." + ID;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(getRaidBosses, null);
+
+        ArrayList<String> bosses = new ArrayList<>();
+
+        if(cursor != null && cursor.moveToFirst()){
+            for(int i = 0; i < cursor.getCount(); i++){
+                bosses.add(cursor.getString(i));
+            }
+            cursor.close();
+        }
+        return bosses;
     }
 }

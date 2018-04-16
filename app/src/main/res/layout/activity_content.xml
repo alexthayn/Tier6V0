@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/side_nav_bar">
+
+    <Button
+        android:id="@+id/btnPokemonTypes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Browse Pokemon Types"
+        android:textSize="30dp"
+        android:background="@color/Yellow"
+        android:layout_marginBottom="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OR"
+        android:textSize="30dp"/>
+
+    <View style="@style/Divider"
+        android:layout_marginBottom="50dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Raid Boss"
+        android:textSize="30dp"
+        android:layout_marginTop="50dp"/>
+
+    <Spinner
+        android:id="@+id/raidbossSpinner"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:background="@color/GreenText"
+        android:text="GO"
+        android:textSize="30dp"/>
+
+</LinearLayout>

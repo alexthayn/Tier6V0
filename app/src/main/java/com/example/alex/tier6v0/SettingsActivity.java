@@ -16,7 +16,7 @@ public class SettingsActivity extends AppCompatActivity {
     DatabaseManager dbManager;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
+        setContentView(R.layout.activity_settings);
 
         dbManager = new DatabaseManager(this);
         Button btnSave = (Button) (findViewById(R.id.btnSave));
@@ -28,12 +28,16 @@ public class SettingsActivity extends AppCompatActivity {
         super.onStart();
         String username = dbManager.getUsername();
         String XP = dbManager.getUserXP();
-
-
     }
+
     //Build view dynamically with the user settings
     public void updateView() {
-
+        TextView username = findViewById(R.id.username);
+        TextView xp = findViewById(R.id.userXP);
+        if(username != null && xp != null) {
+            username.setText(dbManager.getUsername());
+            xp.setText(dbManager.getUserXP());
+        }
     }
 
     private class ButtonHandler implements View.OnClickListener {
@@ -42,7 +46,6 @@ public class SettingsActivity extends AppCompatActivity {
             EditText xp = findViewById(R.id.lblEditXP);
 
             dbManager.setNewUserData(username.getText().toString(), xp.getText().toString());
-
             Toast.makeText(SettingsActivity.this, "Your data has been updated", Toast.LENGTH_SHORT).show();
         }
     }

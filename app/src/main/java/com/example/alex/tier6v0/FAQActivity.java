@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 public class FAQActivity extends AppCompatActivity{
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
-        setContentView(R.layout.faq_main);
+        setContentView(R.layout.activity_faq);
     }
 
 

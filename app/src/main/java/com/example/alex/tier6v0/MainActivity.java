@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.internal.NavigationMenu;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,11 +15,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DatabaseManager dbManager;
+    //The spinner element
+    Spinner spinner;
+    Button browsePokemon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +38,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //dbManager = new DatabaseManager(this);
+        dbManager = new DatabaseManager(this);
+
+        spinner = (Spinner) findViewById(R.id.raidbossSpinner);
+        loadSpinnerData();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -37,12 +51,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        browsePokemon = findViewById(R.id.btnPokemonTypes);
+        browsePokemon.setOnClickListener(new ButtonHandler());
+
+        loadSpinnerData();
     }
 
     @Override
     public void onBackPressed() {
-        updateUserInfo();
 
+            updateUserInfo();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -50,11 +68,16 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus){
+        updateUserInfo();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        updateUserInfo();
         return true;
     }
 
@@ -78,7 +101,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
         int id = item.getItemId();
 
         if (id == R.id.nav_pokemon) {
@@ -94,15 +116,43 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /*@Override
+    public void onDrawerOpened(View drawerView){
+        super.onDrawerOpened(drawerView);
+    }*/
+
     public void updateUserInfo(){
+        String username =dbManager.getUsername();
+        String userXP = dbManager.getUserXP();
+        String userPokemonCount = dbManager.getUserPokemonCount();
         TextView tvUsername = findViewById(R.id.username);
         TextView tvUserXP = findViewById(R.id.userXP);
         TextView tvUserPokemonCount = findViewById(R.id.userPokemonCount);
-        String username = "Username: " + dbManager.getUsername();
-        String xp = "XP: " + dbManager.getUserXP();
-        String pokemoncount = "Pokemon Count: " + dbManager.getUserPokemonCount();
-        tvUsername.setText(username);
-        tvUserXP.setText(xp);
-        tvUserPokemonCount.setText(pokemoncount);
+
+        if(username != null && userXP != null && userPokemonCount != null) {
+            tvUsername.setText("Hello " + dbManager.getUsername());
+            tvUserXP.setText("XP: " +dbManager.getUserXP());
+            tvUserPokemonCount.setText("Pokemon Count: " + dbManager.getUserPokemonCount());
+        }
+    }
+
+    private void loadSpinnerData(){
+        DatabaseManager db = new DatabaseManager(getApplicationContext());
+
+        ArrayList<String> raidBosses = db.getAllRaidBosses();
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, raidBosses);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(dataAdapter);
+    }
+
+    private class ButtonHandler implements View.OnClickListener {
+        public void onClick( View v ) {
+            if(v.getId() == R.id.btnPokemonTypes){
+                Intent browseIntent = new Intent(MainActivity.this, BrowseActivity.class);
+                MainActivity.this.startActivity(browseIntent);
+            }
+        }
     }
 }

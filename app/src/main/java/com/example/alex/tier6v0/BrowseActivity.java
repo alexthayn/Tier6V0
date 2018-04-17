@@ -4,11 +4,8 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 

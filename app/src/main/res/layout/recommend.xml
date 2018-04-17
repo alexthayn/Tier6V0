@@ -1,0 +1,206 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/pokeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50sp"
+        android:text="Rayquaza"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cpTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pokeName"
+        android:layout_centerHorizontal="true"
+        android:text="Max CP: 2083 | 2604"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <!-- grey line -->
+    <View
+        android:id="@+id/topLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/cpTag"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <!--IMAGES AND ICONS-->
+
+    <TextView
+        android:id="@+id/TypesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topLine"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="10sp"
+        android:text="Recommended Types"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:id="@+id/center"
+        android:layout_width="10dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10sp"
+        android:layout_below="@+id/TypesLabel"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/type2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@id/center"
+        android:layout_marginLeft="10dp"
+        android:layout_toStartOf="@id/center"
+        app:srcCompat="@drawable/rock" />
+
+    <ImageView
+        android:id="@+id/type1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@id/center"
+        android:layout_toStartOf="@id/type2"
+        app:srcCompat="@drawable/ice" />
+
+    <ImageView
+        android:id="@+id/type3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@id/center"
+        android:layout_below="@+id/TypesLabel"
+        android:layout_marginRight="10dp"
+        android:layout_toEndOf="@+id/center"
+        app:srcCompat="@drawable/fairy" />
+
+    <ImageView
+        android:id="@+id/type4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@id/center"
+        android:layout_toEndOf="@+id/type3"
+        app:srcCompat="@drawable/dragon" />
+
+
+    <!-- grey line -->
+    <View
+        android:id="@+id/bottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/TeamLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bottomLine"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="10sp"
+        android:text="Recommended Team"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:id="@+id/teamspace1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/TeamLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/poke1"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@id/teamspace1"
+        android:layout_toStartOf="@+id/teamspace1"
+        android:text="Articuno"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/poke2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@id/teamspace1"
+        android:layout_toEndOf="@+id/teamspace1"
+        android:text="Jynx"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <Space
+        android:id="@+id/teamspace2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/teamspace1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/poke3"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@id/teamspace2"
+        android:layout_toStartOf="@+id/teamspace2"
+        android:text="Dragonite"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/poke4"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@id/teamspace2"
+        android:layout_toEndOf="@+id/teamspace2"
+        android:text="Lapras"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <Space
+        android:id="@+id/teamspace3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/teamspace2"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/poke5"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@id/teamspace3"
+        android:layout_toStartOf="@+id/teamspace3"
+        android:text="Rayquaza"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/poke6"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@id/teamspace3"
+        android:layout_toEndOf="@+id/teamspace3"
+        android:text="Walrein"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+
+</RelativeLayout>

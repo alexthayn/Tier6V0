@@ -17,6 +17,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     boolean isCreating = false;
     SQLiteDatabase currentDB = null;
 
+    private static final DatabaseBuilder dbBuilder = new DatabaseBuilder();
+
     private static final String DATABASE_NAME = "pokemonDB";
     private static final int DATABASE_VERSION = 1;
 
@@ -64,8 +66,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db){
+        dbBuilder.createTypes(db);
+        dbBuilder.createTypeAdvantage(db);
+        dbBuilder.createPokemon(db);
+        dbBuilder.createRaidBosses(db);
+
         isCreating = true;
         currentDB = db;
+
+        /*
         //build sql statement for pokemon table
         String sqlCreatePokemon = "create table " + TABLE_POKEMON + "( " + ID;
         sqlCreatePokemon += " integer primary key, " + LOCKED + " VARCHAR, "
@@ -73,9 +82,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         db.execSQL(sqlCreatePokemon);
 
-        /*************************************/
-        /********Add pokemon to table*********/
-        /*************************************/
+
         Pokemon pokemon = new Pokemon(1,"FALSE","Bulbasaur",12,4);
         insertPokemonTable(pokemon);
 
@@ -85,9 +92,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 + POKEMON_ID + " INTEGER, " + MAX_CP + " INTEGER, " + MAX_CP_BOOSTED
                 + " INTEGER );";
 
-        String raidBosses = "Insert into " + TABLE_RAIDBOSSES + "(null, 1,1, 100, 100)";
+        String raidBosses = "Insert into " + TABLE_RAIDBOSSES + "(" +TIER + ", " + POKEMON_ID + "," + MAX_CP + "," + MAX_CP_BOOSTED + ") VALUES (1,1, 100, 100)";
 
         db.execSQL(sqlCreateRaidBosses);
+        db.execSQL(raidBosses);
 
         String sqlCreateTypes = "create table " + TABLE_TYPES + "( " + ID
                 + " integer primary key autoincrement, " + TABLE_TYPES
@@ -103,7 +111,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 + " INTEGER ) ";
 
         db.execSQL(sqlCreateTypes);
-
+*/
         String sqlCreateUserData = "CREATE TABLE IF NOT EXISTS " + TABLE_USER_DATA +
                 "( " + USER_XP + " INTEGER, " + USERNAME + " VARCHAR );";
 
@@ -230,16 +238,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(updateData);
         db.execSQL(insert);
-        Log.w("Username update in db","My username is set to : " + getUsername());
-
     }
 
     public ArrayList<String> getAllRaidBosses(){
-        String getRaidBosses = "Select "+ POKEMON + " from " + TABLE_RAIDBOSSES + " inner join "
+        String getRaidBosses = "SELECT "+ TABLE_POKEMON + "." + ID + " FROM " + TABLE_RAIDBOSSES + " INNER JOIN "
                 + TABLE_POKEMON + " On " + TABLE_RAIDBOSSES + "." + POKEMON_ID + " = "
                 + TABLE_POKEMON + "." + ID;
-
+        Log.w("Raid Boss query: " , getRaidBosses);
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.w("HELLO","EHEOEOl");
         Cursor cursor = db.rawQuery(getRaidBosses, null);
 
         ArrayList<String> bosses = new ArrayList<>();
@@ -249,7 +256,95 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 bosses.add(cursor.getString(i));
             }
             cursor.close();
+            Log.w("CURSOR: ", "Cursor has something in it.");
+
+        }else
+        {
+            Log.w("ERROR: ", "Cursor is null");
         }
         return bosses;
+    }
+
+    public RaidBoss getBossData(int pokeID){
+
+        RaidBoss curBoss = new RaidBoss();
+        SQLiteDatabase db = this.getWritableDatabase( );
+        int type1 = 0, type2 = 0;
+        int [] t = new int[4];
+        String [] ty = new String[4];
+        int [] e = new int[4];
+        String [] bossName = new String[6];
+
+        String sqlQuery = "SELECT pokemon.Name, raidbosses.MaxCP, raidbosses.MaxCPBoosted, pokemon.Type1, pokemon.Type2 " +
+                "FROM raidbosses " +
+                "INNER JOIN pokemon ON raidbosses.PokemonID = pokemon.ID " +
+                "WHERE PokemonID = " + pokeID;
+
+
+        Cursor cursor = db.rawQuery( sqlQuery, null );
+        if(cursor != null && cursor.moveToFirst()) {
+            curBoss.setStage1(cursor.getString(0), cursor.getInt(1), cursor.getInt(2));
+            type1 = cursor.getInt(3);
+            type2 = cursor.getInt(4);
+        }
+
+        sqlQuery = "SELECT ty1.ID, ty1.Type, SUM(Effectiveness) " +
+                "FROM typeadvantages AS t1 " +
+                "INNER JOIN types AS ty1 ON (ty1.ID = t1.Type2) " +
+                "INNER JOIN types AS ty2 ON (ty2.ID = t1.Type2) " +
+                "WHERE (t1.Type1 = " + type1 + ") or (t1.Type1 = "+ type2 +") " +
+                "GROUP BY t1.Type2 " +
+                "ORDER BY SUM(Effectiveness) DESC " +
+                "LIMIT 4";
+
+        cursor = db.rawQuery( sqlQuery, null );
+
+        if(cursor != null && cursor.moveToFirst()) {
+            int i = 0;
+            do {
+                t[i] = cursor.getInt(0);
+                ty[i] = cursor.getString(1);
+                e[i] = cursor.getInt(2);
+                i++;
+            } while (cursor.moveToNext());
+        }
+
+        curBoss.setStage2(ty[0],ty[1],ty[2],ty[3]);
+        Log.w("Types" ,ty[0] + ty[1] + ty[2] + ty[3]);
+
+        if(e[2] < e[0] && e[3] < e[1]){
+            t[2] = t[0];
+            t[3] = t[1];
+        }
+
+        sqlQuery ="SELECT pokemon.Name " +
+                "FROM pokemon " +
+                "WHERE (((pokemon.Type1 = "+t[0]+") AND (pokemon.Type2 = "+t[1]+")) " +
+                "OR ((pokemon.Type1 = "+t[0]+") AND (pokemon.Type2 = "+t[2]+")) " +
+                "OR ((pokemon.Type1 = "+t[0]+") AND (pokemon.Type2 = "+t[3]+")) " +
+                "OR ((pokemon.Type1 = "+t[1]+") AND (pokemon.Type2 = "+t[2]+")) " +
+                "OR ((pokemon.Type1 = "+t[1]+") AND (pokemon.Type2 = "+t[3]+")) " +
+                "OR ((pokemon.Type1 = "+t[2]+") AND (pokemon.Type2 = "+t[3]+")) " +
+                "OR ((pokemon.Type1 = "+t[0]+") AND (pokemon.Type2 = 0)) " +
+                "OR ((pokemon.Type1 = "+t[1]+") AND (pokemon.Type2 = 0)) " +
+                "OR ((pokemon.Type1 = "+t[2]+") AND (pokemon.Type2 = 0)) " +
+                "OR ((pokemon.Type1 = "+t[3]+") AND (pokemon.Type2 = 0))) " +
+                "AND (pokemon.Locked = 0) " +
+                "ORDER BY pokemon.MaxCP DESC " +
+                "LIMIT 6";
+
+        cursor = db.rawQuery( sqlQuery, null );
+        if(cursor != null && cursor.moveToFirst()) {
+            int i = 0;
+            do {
+                bossName[i] = cursor.getString(0);
+                i++;
+            } while (cursor.moveToNext());
+        }
+        curBoss.setStage3(bossName[0],bossName[1],bossName[2],bossName[3],bossName[4],bossName[5]);
+
+        cursor.close();
+
+        return curBoss;
     }
 }

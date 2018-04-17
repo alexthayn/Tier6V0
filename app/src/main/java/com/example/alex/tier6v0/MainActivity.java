@@ -2,6 +2,7 @@ package com.example.alex.tier6v0;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DatabaseManager dbManager;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         spinner = (Spinner) findViewById(R.id.raidbossSpinner);
         spinner.setOnItemSelectedListener(new spinnerListener());
-        //loadSpinnerData();
+        loadSpinnerData();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,9 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         browsePokemon = findViewById(R.id.btnPokemonTypes);
-        browsePokemon.setOnClickListener(new ButtonHandler());
 
-        //loadSpinnerData();
     }
 
     @Override
@@ -133,29 +133,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadSpinnerData(){
-        //DatabaseManager db = new DatabaseManager(getApplicationContext());
 
-        ArrayList<String> raidBosses = new ArrayList<>();// = db.getAllRaidBosses();
-        raidBosses.add("hello");
-        raidBosses.add("butt");
+        List<String> raidBosses = dbManager.getAllRaidBosses();
 
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, raidBosses);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, raidBosses);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(dataAdapter);
     }
 
-    private class ButtonHandler implements View.OnClickListener {
-        public void onClick( View v ) {
-            if(v.getId() == R.id.btnPokemonTypes){
-                Intent browseIntent = new Intent(MainActivity.this, BrowseActivity.class);
-                MainActivity.this.startActivity(browseIntent);
-            }else if(v.getId() == R.id.go){
-                Intent bossIntent = new Intent(MainActivity.this, RecommendActivity.class);
-                bossIntent.putExtra("PokemonID", 303);
-                MainActivity.this.startActivity(bossIntent);
-            }
+
+    public void onClick( View v ) {
+        if(v.getId() == R.id.btnPokemonTypes){
+            Intent browseIntent = new Intent(MainActivity.this, BrowseActivity.class);
+            MainActivity.this.startActivity(browseIntent);
+
+        }else if(v.getId() == R.id.go){
+            String curVal = spinner.getSelectedItem().toString();
+            curVal = curVal.substring(curVal.indexOf("(") + 1,curVal.indexOf(")"));
+            int pokeId = Integer.parseInt(curVal);
+
+            Intent bossIntent = new Intent(MainActivity.this, RecommendActivity.class);
+            bossIntent.putExtra("PokemonID", pokeId);
+            MainActivity.this.startActivity(bossIntent);
         }
     }
 

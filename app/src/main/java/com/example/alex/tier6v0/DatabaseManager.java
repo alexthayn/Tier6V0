@@ -22,44 +22,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "pokemonDB";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_POKEMON = "Pokemon";
+    private static final String TABLE_POKEMON = "pokemon";
+    private static final String TABLE_RAIDBOSSES = "raidbosses";
+    private static final String TABLE_TYPES = "types";
+    private static final String TABLE_TYPEADVANTAGES = "typeadvantages";
+    private static final String TABLE_USER_POKEMON = "UserPokemon";
+
     private static final String ID = "id";
-    private static final String LOCKED = "Locked";
-    private static final String POKEMON = "Pokemon";
-    private static final String TYPE1 = "TYPE_I";
-    private static final String TYPE2 = "TYPE_II";
 
-    private static final String TABLE_RAIDBOSSES = "RaidBosses";
-    private static final String TIER = "Tier";
     private static final String POKEMON_ID = "Pokemon_ID";
-    private static final String MAX_CP = "Max_CP";
-    private static final String MAX_CP_BOOSTED = "Max_CP_Boosted";
 
-    private static final String TABLE_TYPES = "Types";
-    private static final String NORMAL = "Normal";
-    private static final String FIGHTING = "Fighting";
-    private static final String FLYING = "Flying";
-    private static final String POISON = "Poison";
-    private static final String GROUND = "Ground";
-    private static final String ROCK = "Rock";
-    private static final String BUG = "Bug";
-    private static final String GHOST = "Ghost";
-    private static final String STEEL = "Steel";
-    private static final String FIRE = "Fire";
-    private static final String WATER = "Water";
-    private static final String GRASS = "Grass";
-    private static final String ELECTRIC = "Electric";
-    private static final String PSYCHIC = "Psychic";
-    private static final String ICE = "Ice";
-    private static final String DRAGON = "Dragon";
-    private static final String DARK = "Dark";
-    private static final String FAIRY = "Fairy";
 
     private static final String TABLE_USER_DATA = "UserData";
     private static final String USERNAME = "Username";
     private static final String USER_XP = "User_XP";
 
-    private static final String TABLE_USER_POKEMON = "UserPokemon";
+
 
     public DatabaseManager(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -74,44 +52,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         isCreating = true;
         currentDB = db;
 
-        /*
-        //build sql statement for pokemon table
-        String sqlCreatePokemon = "create table " + TABLE_POKEMON + "( " + ID;
-        sqlCreatePokemon += " integer primary key, " + LOCKED + " VARCHAR, "
-                + POKEMON + " VARCHAR, " + TYPE1 + " INTEGER, " + TYPE2 + " INTEGER );";
-
-        db.execSQL(sqlCreatePokemon);
-
-
-        Pokemon pokemon = new Pokemon(1,"FALSE","Bulbasaur",12,4);
-        insertPokemonTable(pokemon);
-
-
-        String sqlCreateRaidBosses = "create table " +  TABLE_RAIDBOSSES + "( " + ID
-                + " integer primary key autoincrement, " + TIER + " INTEGER, "
-                + POKEMON_ID + " INTEGER, " + MAX_CP + " INTEGER, " + MAX_CP_BOOSTED
-                + " INTEGER );";
-
-        String raidBosses = "Insert into " + TABLE_RAIDBOSSES + "(" +TIER + ", " + POKEMON_ID + "," + MAX_CP + "," + MAX_CP_BOOSTED + ") VALUES (1,1, 100, 100)";
-
-        db.execSQL(sqlCreateRaidBosses);
-        db.execSQL(raidBosses);
-
-        String sqlCreateTypes = "create table " + TABLE_TYPES + "( " + ID
-                + " integer primary key autoincrement, " + TABLE_TYPES
-                + " VARCHAR, " + NORMAL + " INTEGER, " + FIGHTING
-                + " INTEGER, " + FLYING + " INTEGER, " + POISON
-                + " INTEGER, " + GROUND + " INTEGER, " + ROCK
-                + " INTEGER, " + BUG + " INTEGER, " + GHOST
-                + " INTEGER, " + STEEL + " INTEGER, " + FIRE
-                + " INTEGER, " + WATER + " INTEGER, " + GRASS
-                + " INTEGER, " + ELECTRIC + " INTEGER, " + PSYCHIC
-                + " INTEGER, " + ICE + " INTEGER, " + DRAGON
-                + " INTEGER, " + DARK + " INTEGER, " + FAIRY
-                + " INTEGER ) ";
-
-        db.execSQL(sqlCreateTypes);
-*/
         String sqlCreateUserData = "CREATE TABLE IF NOT EXISTS " + TABLE_USER_DATA +
                 "( " + USER_XP + " INTEGER, " + USERNAME + " VARCHAR );";
 
@@ -130,6 +70,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + TABLE_POKEMON);
         db.execSQL("drop table if exists " + TABLE_RAIDBOSSES);
         db.execSQL("drop table if exists " + TABLE_TYPES);
+        db.execSQL("drop table if exists " + TABLE_TYPEADVANTAGES);
         //recreate tables
         onCreate(db);
     }
@@ -240,29 +181,24 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(insert);
     }
 
-    public ArrayList<String> getAllRaidBosses(){
-        String getRaidBosses = "SELECT "+ TABLE_POKEMON + "." + ID + " FROM " + TABLE_RAIDBOSSES + " INNER JOIN "
-                + TABLE_POKEMON + " On " + TABLE_RAIDBOSSES + "." + POKEMON_ID + " = "
-                + TABLE_POKEMON + "." + ID;
-        Log.w("Raid Boss query: " , getRaidBosses);
-        SQLiteDatabase db = this.getWritableDatabase();
-        Log.w("HELLO","EHEOEOl");
-        Cursor cursor = db.rawQuery(getRaidBosses, null);
+    public List<String> getAllRaidBosses(){
+        SQLiteDatabase db = this.getWritableDatabase( );
 
-        ArrayList<String> bosses = new ArrayList<>();
+        List<String> raidBosses = new ArrayList<String>();
 
-        if(cursor != null && cursor.moveToFirst()){
-            for(int i = 0; i < cursor.getCount(); i++){
-                bosses.add(cursor.getString(i));
-            }
-            cursor.close();
-            Log.w("CURSOR: ", "Cursor has something in it.");
+        String sqlQuery = "SELECT pokemon.Name, raidbosses.PokemonID, raidbosses.Tier " +
+                "FROM raidbosses " +
+                "INNER JOIN pokemon ON raidbosses.PokemonID = pokemon.ID " +
+                "ORDER BY raidbosses.Tier, raidbosses.PokemonID";
 
-        }else
-        {
-            Log.w("ERROR: ", "Cursor is null");
+        Cursor cursor = db.rawQuery( sqlQuery, null );
+        if(cursor != null && cursor.moveToFirst()) {
+            do {
+                raidBosses.add(cursor.getString(0) + " (" + cursor.getInt(1) + ") | Tier " + cursor.getInt(2));
+            } while (cursor.moveToNext());
         }
-        return bosses;
+
+        return raidBosses;
     }
 
     public RaidBoss getBossData(int pokeID){

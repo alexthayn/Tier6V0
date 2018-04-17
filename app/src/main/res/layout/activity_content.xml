@@ -5,29 +5,34 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/background">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PREPARE"
+        android:text="Prepare"
         android:textSize="50dp"
+        android:layout_marginTop="65dp"
+        android:textAlignment="center"
         android:textColor="@color/textfield"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select Raid Boss"
         android:textSize="24dp"
         android:layout_marginTop="10dp"
+        android:textAlignment="center"
         android:textColor="@color/textfield"/>
 
     <Spinner
         android:id="@+id/raidbossSpinner"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@color/textfield"/>
 
     <Button
         android:id="@+id/go"
@@ -35,8 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:background="@drawable/side_nav_bar"
-        android:text="GO"
-        android:textSize="30dp" />
+        android:text="GO!"
+        android:onClick="onClick"
+        android:textSize="20dp" />
 
 
     <View style="@style/Divider"
@@ -44,19 +50,23 @@
         android:layout_marginTop="30dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="RESEARCH"
+        android:textAlignment="center"
+        android:text="Research"
         android:textSize="50dp"
         android:textColor="@color/textfield" />
 
     <Button
         android:id="@+id/btnPokemonTypes"
-        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Effective Types"
-        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:background="@drawable/side_nav_bar"
+        android:padding="10dp"
+        android:text="Pokémon Types"
+        android:textSize="20dp"
+        android:onClick="onClick"
         android:layout_marginTop="25dp"/>
 </LinearLayout>

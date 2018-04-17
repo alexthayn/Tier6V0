@@ -33,6 +33,12 @@
 
         </activity>
 
+        <activity android:name=".RecommendActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+
     </application>
 
 </manifest>

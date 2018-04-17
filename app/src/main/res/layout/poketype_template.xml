@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="75sp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:id="@+id/poketype_layout">
 
     <TextView
         android:id="@+id/pokemonName"
-        android:layout_width="wrap_content"
+        android:layout_width="200sp"
         android:layout_height="75sp"
         android:text="Pokemon Name"
         android:textSize="25sp"
@@ -31,7 +31,6 @@
         android:layout_height="60sp"
         android:layout_marginLeft="20sp"
         android:layout_toRightOf="@+id/pokemonType1"
-        app:srcCompat="@drawable/rock"
         android:layout_marginTop="7sp"/>
 
 </RelativeLayout>

@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:lay
         android:text="FAQ's"
         android:textColor="@color/textfield"
         android:textSize="30sp" />

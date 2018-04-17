@@ -3,43 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:orientation="horizontal"
-    android:scrollbars = "vertical"
+    android:gravity="center"
     android:background="@color/background">
 
     <ImageView
         android:id="@+id/appLogo"
-        android:layout_width="200sp"
-        android:layout_height="200sp"
-        android:layout_marginTop="30sp"
+        android:layout_width="250sp"
+        android:layout_height="250sp"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/logo_big_color" />
 
     <Button
         android:id="@+id/toApp"
-        android:layout_width="200sp"
-        android:layout_height="60sp"
+        android:layout_width="250sp"
+        android:layout_height="65sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/appLogo"
-        android:layout_marginTop="30sp"
+        android:layout_marginTop="40sp"
         android:background="@drawable/side_nav_bar"
         android:textStyle="bold"
-        android:textSize="17sp"
+        android:textSize="20sp"
         android:textColor="@color/background"
+        android:onClick="onClick"
         android:text="Continue To Tier 6" />
 
     <Button
         android:id="@+id/toPoGo"
-        android:layout_width="200sp"
-        android:layout_height="60sp"
+        android:layout_width="250sp"
+        android:layout_height="65sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/toApp"
-        android:layout_marginTop="30sp"
+        android:layout_marginTop="40sp"
         android:background="@drawable/side_nav_bar"
         android:textStyle="bold"
-        android:textSize="17sp"
+        android:textSize="20sp"
         android:textColor="@color/background"
         android:text="Launch Pokemon Go" />
 

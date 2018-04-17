@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
-            updateUserInfo();
+        updateUserInfo();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -120,16 +121,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void updateUserInfo(){
         String username =dbManager.getUsername();
         String userXP = dbManager.getUserXP();
+        int userLevel = getLevel(Integer.parseInt(userXP));
         String userPokemonCount = dbManager.getUserPokemonCount();
+        String userTeam = dbManager.getUserTeam().trim();
+
+        Log.w("Team Debug", userTeam);
         TextView tvUsername = findViewById(R.id.username);
+        TextView tvUserLevel = findViewById(R.id.userLevel);
         TextView tvUserXP = findViewById(R.id.userXP);
         TextView tvUserPokemonCount = findViewById(R.id.userPokemonCount);
+        ImageView icon = findViewById(R.id.teamLogo);
+        View side = findViewById(R.id.sideMenu);
 
-        if(username != null && userXP != null && userPokemonCount != null) {
-            tvUsername.setText("Hello " + dbManager.getUsername());
-            tvUserXP.setText("XP: " +dbManager.getUserXP());
-            tvUserPokemonCount.setText("Pokemon Count: " + dbManager.getUserPokemonCount());
+        tvUsername.setText(username);
+        tvUserLevel.setText("Level: " + userLevel);
+        tvUserXP.setText("XP: " + userXP);
+        tvUserPokemonCount.setText("Pokemon Count: " + userPokemonCount);
+
+        if(userTeam.equals("Mystic")){
+            icon.setImageResource(R.drawable.mystic);
+            side.setBackgroundResource(R.drawable.mysticback);
         }
+        if(userTeam.equals("Valor")){
+            icon.setImageResource(R.drawable.valor);
+            side.setBackgroundResource(R.drawable.valorback);
+        }
+        if(userTeam.equals("Instinct")){
+            icon.setImageResource(R.drawable.instinct);
+            side.setBackgroundResource(R.drawable.instinctback);
+        }
+
     }
 
     private void loadSpinnerData(){
@@ -169,5 +190,88 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public void onNothingSelected(AdapterView<?> arg0) {
             // TODO Auto-generated method stub
         }
+    }
+
+    public int getLevel(int xp){
+        if(xp < 1000)
+            return 1;
+        else if(xp < 3000)
+            return 2;
+        else if(xp < 6000)
+            return 3;
+        else if(xp < 10000)
+            return 4;
+        else if(xp < 15000)
+            return 5;
+        else if(xp < 21000)
+            return 6;
+        else if(xp < 28000)
+            return 7;
+        else if(xp < 36000)
+            return 8;
+        else if(xp < 45000)
+            return 9;
+        else if(xp < 55000)
+            return 10;
+        else if(xp < 65000)
+            return 11;
+        else if(xp < 75000)
+            return 12;
+        else if(xp < 85000)
+            return 13;
+        else if(xp < 100000)
+            return 14;
+        else if(xp < 120000)
+            return 15;
+        else if(xp < 140000)
+            return 16;
+        else if(xp < 160000)
+            return 17;
+        else if(xp < 185000)
+            return 18;
+        else if(xp < 210000)
+            return 19;
+        else if(xp < 260000)
+            return 20;
+        else if(xp < 335000)
+            return 21;
+        else if(xp < 435000)
+            return 22;
+        else if(xp < 560000)
+            return 23;
+        else if(xp < 710000)
+            return 24;
+        else if(xp < 900000)
+            return 25;
+        else if(xp < 1100000)
+            return 26;
+        else if(xp < 1350000)
+            return 27;
+        else if(xp < 1650000)
+            return 28;
+        else if(xp < 2000000)
+            return 29;
+        else if(xp < 2500000)
+            return 30;
+        else if(xp < 3000000)
+            return 31;
+        else if(xp < 3750000)
+            return 32;
+        else if(xp < 4750000)
+            return 33;
+        else if(xp < 6000000)
+            return 34;
+        else if(xp < 7500000)
+            return 35;
+        else if(xp < 9500000)
+            return 36;
+        else if(xp < 12000000)
+            return 37;
+        else if(xp < 15000000)
+            return 38;
+        else if(xp < 20000000)
+            return 39;
+        else
+            return 40;
     }
 }

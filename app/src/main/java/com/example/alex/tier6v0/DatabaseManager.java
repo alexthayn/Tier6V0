@@ -36,6 +36,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String TABLE_USER_DATA = "UserData";
     private static final String USERNAME = "Username";
     private static final String USER_XP = "User_XP";
+    private static final String USER_TEAM = "User_Team";
 
 
 
@@ -53,9 +54,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
         currentDB = db;
 
         String sqlCreateUserData = "CREATE TABLE IF NOT EXISTS " + TABLE_USER_DATA +
-                "( " + USER_XP + " INTEGER, " + USERNAME + " VARCHAR );";
+                "( " + USER_XP + " INTEGER, " + USERNAME + " VARCHAR, " + USER_TEAM + " VARCHAR );";
+
+        String insert = " Insert into " + TABLE_USER_DATA + " VALUES (  0  , 'Player' , 'None')";
 
         db.execSQL(sqlCreateUserData);
+        db.execSQL(insert);
 
         String sqlCreateUserPokemon = "CREATE TABLE IF NOT EXISTS " + TABLE_USER_POKEMON
                 + "( " + ID + " INTEGER, " + POKEMON_ID + " INTEGER);";
@@ -129,6 +133,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return userXP;
     }
 
+    //get user team
+    public String getUserTeam(){
+        String sqlQuery = "select " +USER_TEAM + " from " + TABLE_USER_DATA;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sqlQuery, null);
+
+        String userTeam = "";
+        if(cursor != null && cursor.moveToFirst()){
+            userTeam = cursor.getString(0);
+            cursor.close();
+        }
+
+        return userTeam;
+    }
+
     //get user pokemon count
     public String getUserPokemonCount(){
         String sqlQuery = "select COUNT(*)from " + TABLE_USER_POKEMON;
@@ -172,9 +191,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return pokemon;
     }
 
-    public void setNewUserData(String username, String xp){
+    public void setNewUserData(String username, String xp, String team){
         String updateData = "Delete from " + TABLE_USER_DATA;
-        String insert = " Insert into " + TABLE_USER_DATA + " VALUES ( " + Integer.parseInt(xp) + " , '" + username + "')";
+        String insert = " Insert into " + TABLE_USER_DATA + " VALUES ( " + Integer.parseInt(xp) + " , '" + username + "' , ' " + team + "')";
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(updateData);

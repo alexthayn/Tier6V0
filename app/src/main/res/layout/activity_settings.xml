@@ -1,51 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/background">
 
+    <TextView
+        android:id="@+id/updateTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:text="Edit Profile"
+        android:textColor="@color/textfield"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"/>
 
     <TextView
         android:id="@+id/tvEditUsername"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/updateTitle"
         android:textSize="30dp"
-        android:text="Edit Username"
+        android:text="Update Username"
         android:textColor="@color/textfield"
-        android:layout_marginTop="@dimen/margin"/>
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"/>
+
     <EditText
         android:id="@+id/lblEditUsername"
         android:layout_width="250dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvEditUsername"
         android:inputType="none"
         android:background="@color/textfield"
-        />
-
-    <TextView
-        android:id="@+id/tvEditXP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit XP"
-        android:textSize="30dp"
-        android:textColor="@color/textfield"
-        android:layout_marginTop="@dimen/margin"/>
-    <EditText
-        android:id="@+id/lblEditXP"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:inputType="none"
-        android:background="@color/textfield"
+        android:layout_marginLeft="20sp"
         />
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/updateUsername"
         android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_alignTop="@id/lblEditUsername"
+        android:layout_toRightOf="@id/lblEditUsername"
+        android:text="Update"
+        android:onClick="onClick"
+        android:background="@drawable/side_nav_bar" />
+
+    <TextView
+        android:id="@+id/tvEditXP"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
-        android:background="@drawable/side_nav_bar"
+        android:text="Update XP"
+        android:textSize="30dp"
+        android:layout_below="@id/lblEditUsername"
+        android:textColor="@color/textfield"
+        android:layout_marginLeft="20sp"
         android:layout_marginTop="@dimen/margin"/>
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/lblEditXP"
+        android:inputType="number"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvEditXP"
+        android:background="@color/textfield"
+        android:layout_marginLeft="20sp"
+        />
+
+    <Button
+        android:id="@+id/updateXP"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_alignTop="@id/lblEditXP"
+        android:layout_toRightOf="@id/lblEditXP"
+        android:text="Update"
+        android:onClick="onClick"
+        android:background="@drawable/side_nav_bar" />
+
+    <TextView
+        android:id="@+id/tvEditTeam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Team"
+        android:textSize="30dp"
+        android:layout_below="@id/lblEditXP"
+        android:textColor="@color/textfield"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="@dimen/margin"/>
+
+    <Spinner
+        android:id="@+id/lblEditTeam"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvEditTeam"
+        android:layout_marginLeft="20sp"
+        android:background="@color/textfield"/>
+
+    <Button
+        android:id="@+id/updateTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:layout_alignTop="@id/lblEditTeam"
+        android:layout_toRightOf="@id/lblEditTeam"
+        android:text="Update"
+        android:onClick="onClick"
+        android:background="@drawable/side_nav_bar" />
+
+</RelativeLayout>

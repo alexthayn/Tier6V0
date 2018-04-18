@@ -1,6 +1,9 @@
 package com.example.alex.tier6v0;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -102,7 +105,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_pokemon) {
 
-        } else if (id == R.id.nav_settings) {
+        }
+        else if (id == R.id.nav_toGame){
+            openApp(this, "com.nianticlabs.pokemongo");
+        }
+        else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent( this , SettingsActivity.class );
             this.startActivity( settingsIntent );
             return true;
@@ -189,6 +196,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
             // TODO Auto-generated method stub
+        }
+    }
+
+    public static boolean openApp(Context context, String packageName) {
+        PackageManager manager = context.getPackageManager();
+        try {
+            Intent i = manager.getLaunchIntentForPackage(packageName);
+            if (i == null) {
+                return false;
+                //throw new ActivityNotFoundException();
+            }
+            i.addCategory(Intent.CATEGORY_LAUNCHER);
+            context.startActivity(i);
+            return true;
+        } catch (ActivityNotFoundException e) {
+            return false;
         }
     }
 

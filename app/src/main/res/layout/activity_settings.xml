@@ -30,7 +30,7 @@
 
     <EditText
         android:id="@+id/lblEditUsername"
-        android:layout_width="250dp"
+        android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_below="@id/tvEditUsername"
         android:inputType="none"
@@ -62,7 +62,7 @@
     <EditText
         android:id="@+id/lblEditXP"
         android:inputType="number"
-        android:layout_width="250dp"
+        android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_below="@id/tvEditXP"
         android:background="@color/textfield"

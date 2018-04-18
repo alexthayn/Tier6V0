@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="horizontal"
+    android:scrollbars = "vertical"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/faqTitle"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:text="FAQ's"
+        android:textColor="@color/textfield"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/q1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/faqTitle"
+        android:text="What is Tier 6?"
+        android:textStyle="bold"
+        android:textColor="@color/textfield"
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/a1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/q1"
+        android:text="Tier 6 is an app that is designed to recommend teams for Pokémon Go."
+        android:textColor="@color/textfield"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/q2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/a1"
+        android:text="How are teams determined?"
+        android:textColor="@color/textfield"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30sp"/>
+    <TextView
+        android:id="@+id/a2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/q2"
+        android:text="We determine teams based on Pokémon Type. Some types are more effective against a certain other type."
+        android:textColor="@color/textfield"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/q3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/a2"
+        android:text="Will Tier 6 connect to my Pokémon Go account?"
+        android:textColor="@color/textfield"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30sp"/>
+    <TextView
+        android:id="@+id/a3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/q3"
+        android:text="No. Tier 6 will never connect to or attempt to connect to your Pokémon Go account."
+        android:textColor="@color/textfield"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/q4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/a3"
+        android:text="What is a Glass Cannon?"
+        android:textColor="@color/textfield"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30sp"/>
+    <TextView
+        android:id="@+id/a4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/q4"
+        android:text="Glass cannons are Pokémon that offset their relative frailty with high attacking power. We currently do not handle Glass Cannons."
+        android:textColor="@color/textfield"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>
